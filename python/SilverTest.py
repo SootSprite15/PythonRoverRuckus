@@ -31,8 +31,8 @@ plt.subplot(222), plt.imshow(newSilverCHSV)
 
     # define range of gold color in HSV
     #picked numbers around the gold_hsv
-lower_silver = np.array([0,0,180])
-upper_silver = np.array([255,90,255])
+lower_silver = np.array([0,0,130])
+upper_silver = np.array([255,50,255])
 
 # Threshold the HSV image to get only gold colors
 mask = cv2.inRange(newSilverCHSV, lower_silver, upper_silver)
@@ -58,10 +58,13 @@ cY = int(M["m01"] / M["m00"])
 #plt.imshow(edges, cmap = 'gray')
 
 
-#dilation = cv2.dilate(mask,kernel,iterations =1)
-#erosion = cv2.erode(dilation,kernel, iterations=1)
+kernel = np.ones((5,5), np.uint8)
+erosion = cv2.erode(mask,kernel, iterations=1)
+dilation = cv2.dilate(erosion,kernel,iterations =1)
+dilation1 = cv2.dilate(dilation,kernel,iterations =1)
+erosion2 = cv2.erode(dilation1,kernel,iterations=1)
 #plt.imshow(erosion, cmap = 'gray')
-plt.subplot(221), plt.imshow(mask , cmap = 'gray')
-#plt.subplot(222), plt.imshow(dilation , cmap = 'gray')
+#plt.subplot(221), plt.imshow(mask , cmap = 'gray')
+plt.subplot(222), plt.imshow(erosion2 , cmap = 'gray')
 #plt.subplot(223), plt.imshow(erosion , cmap = 'gray')
 #plt.subplot(224), plt.imshow(mask , cmap = 'gray')
